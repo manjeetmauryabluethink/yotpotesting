@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Magento\Customer\CustomerData\SectionPoolInterface">
+        <arguments>
+            <argument name="sectionSourceMap" xsi:type="array">
+                <item name="yotposms-customer-behaviour" xsi:type="string">Yotpo\SmsBump\CustomerData\CustomerBehaviour</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Yotpo\SmsBump\CustomerData\CustomerBehaviour">
+        <arguments>
+            <argument name="currentCustomer" xsi:type="object">Magento\Customer\Helper\Session\CurrentCustomer</argument>
+            <argument name="session" xsi:type="object">Yotpo\SmsBump\Model\Session</argument>
+        </arguments>
+    </type>
+    <type name="Magento\Checkout\Model\CompositeConfigProvider">
+        <arguments>
+            <argument name="configProviders" xsi:type="array">
+                <item name="yotpo_config_provider" xsi:type="object">Yotpo\SmsBump\Model\YotpoConfigProvider</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Magento\Customer\Block\Form\Register">
+        <plugin name="yotpo_smsbump_customer_form_register"
+                type="Yotpo\SmsBump\Plugin\Customer\Form\Register"/>
+    </type>
+    <type name="Magento\Customer\Block\Form\Edit">
+        <plugin name="yotpo_smsbump_customer_form_edit"
+                type="Yotpo\SmsBump\Plugin\Customer\Form\Edit"/>
+    </type>
+    <type name="Magento\Checkout\Model\DefaultConfigProvider">
+        <plugin name="yotpo_smsbump_default_config_provider"
+                type="Yotpo\SmsBump\Plugin\Checkout\DefaultConfigProviderPlugin"/>
+    </type>
+    <type name="Magento\Customer\Controller\Account\LoginPost">
+        <plugin name="yotpo_smsbump_customer_login_post"
+                type="Yotpo\SmsBump\Plugin\Customer\Account\LoginPost"/>
+    </type>
+</config>

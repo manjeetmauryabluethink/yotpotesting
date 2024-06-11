@@ -1,0 +1,36 @@
+<?php
+use Yotpo\Reviews\Block\Conversion;
+use Magento\Framework\Escaper;
+
+/**
+ * @var $block Conversion
+ * @var Escaper $escaper
+ */
+$escaper = $escaper ?? $block;
+?>
+<?php if (!($block->isEnabled() && $block->hasOrder())) {
+    return;
+} ?>
+<!-- Yotpo - Conversion -->
+<?php if (($jsonData = $block->getJsonData())): ?>
+    <script>
+        (function e(){
+            let e=document.createElement("script");
+            e.type="text/javascript",
+            e.async=true,
+            <?php // phpcs:ignore ?>
+            e.src="<?= $block->getYotpoWidgetUrl() ?>";
+            let t=document.getElementsByTagName("script")[0];t.parentNode.insertBefore(e,t)})();
+    </script>
+    <script>
+        <?php // phpcs:ignore ?>
+        yotpoTrackConversionData = <?= $jsonData ?>;
+    </script>
+<?php endif; ?>
+<?php if (($noScriptSrc = $block->getNoscriptSrc())): ?>
+    <noscript>
+        <?php // phpcs:ignore ?>
+        <img src="<?= $noScriptSrc ?>" width="1" height="1">
+    </noscript>
+<?php endif; ?>
+<!--/ Yotpo - Conversion -->

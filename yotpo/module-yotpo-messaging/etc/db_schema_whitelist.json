@@ -1,0 +1,37 @@
+{
+    "yotpo_customers_sync": {
+        "column": {
+            "entity_id": true,
+            "customer_id": true,
+            "store_id": true,
+            "synced_to_yotpo": true,
+            "response_code": true,
+            "should_retry": true
+        },
+        "index": {
+            "YOTPO_CUSTOMERS_SYNC_ENTITY_ID": true,
+            "YOTPO_CUSTOMERS_SYNC_STORE_ID_SHOULD_RETRY": true
+        },
+        "constraint": {
+            "PRIMARY": true,
+            "YOTPO_CUSTOMERS_SYNC_CUSTOMER_ID_STORE_ID": true
+        }
+    },
+    "yotpo_abandoned_cart": {
+        "column": {
+            "abandoned_cart_id": true,
+            "quote_id": true,
+            "store_id": true,
+            "email": true,
+            "quote_token": true
+        },
+        "constraint": {
+            "PRIMARY": true,
+            "YOTPO_ABANDONED_CART_QUOTE_ID_STORE_ID": true,
+            "YOTPO_ABANDONED_CART_QUOTE_ID_QUOTE_ENTITY_ID": true
+        },
+        "index": {
+            "YOTPO_ABANDONED_CART_QUOTE_ID": true
+        }
+    }
+}

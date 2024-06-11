@@ -1,0 +1,41 @@
+<?php
+/**
+ * @var $block \Yotpo\Loyalty\Block\Snippet
+ */
+?>
+<?php if (!$block->shouldLoadSnippet()) {
+    return;
+} ?>
+<!-- Yotpo Loyalty - Snippet Loader -->
+<script>
+    (function  () {
+        require([
+            "jquery",
+            'mage/storage'
+        ],function($, storage) {
+            $(document).ready(function() {
+                try {
+                    storage.get(
+                        '<?php echo $block->getUrl('rest/V1/swell/session/snippet') ?>'
+                    ).done(function (response) {
+                        response = JSON.parse(response);
+                        if(!response.error && response.snippet){
+                            $("body").append(response.snippet);
+                        }else{
+                            throw response;
+                        }
+                    }).fail(function (response) {
+                        throw response;
+                    });
+                } catch (e) {
+                    <?php if ($block->isDebugMode()) : ?>
+                        console.error(e);
+                    <?php else : ?>
+                        console.error("Yotpo Loyalty Error - Enable debug mode in order to see more details...");
+                    <?php endif; ?>
+                }
+            });
+        });
+    })();
+</script>
+<!--/ Yotpo Loyalty - Snippet Loader -->

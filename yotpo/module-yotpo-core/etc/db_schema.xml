@@ -1,0 +1,122 @@
+<?xml version="1.0"?>
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+    <table name="yotpo_product_sync" resource="default" engine="innodb" comment="Product Sync with Yotpo">
+        <column xsi:type="int" name="entity_id" unsigned="true" nullable="false" identity="true"
+                comment="Entity ID"/>
+        <column xsi:type="int" name="product_id" unsigned="true" nullable="false" identity="false"
+                comment="Product Row ID"/>
+        <column xsi:type="int" name="store_id" unsigned="true" nullable="false" identity="false"
+                comment="Store ID"/>
+        <column xsi:type="double" name="yotpo_id" unsigned="true" nullable="false" default="0"
+                comment="Api Response Data - Yotpo ID"/>
+        <column xsi:type="double" name="visible_variant_yotpo_id" unsigned="true" nullable="false" default="0"
+                comment="Api Response Data - Yotpo ID of visible child products"/>
+        <column xsi:type="int" name="yotpo_id_unassign" unsigned="true" nullable="false" identity="false" default="0"
+                comment="Api Response Data - Yotpo ID - Duplicate"/>
+        <column xsi:type="double" name="yotpo_id_parent" unsigned="true" nullable="false" default="0"
+                comment="Api Response Data - Parent Yotpo ID"/>
+        <column xsi:type="smallint" name="is_deleted" unsigned="true" nullable="false" identity="false" default="0"
+                comment="Is Deleted"/>
+        <column xsi:type="smallint" name="is_deleted_at_yotpo" unsigned="true" nullable="false" identity="false" default="0"
+                comment="Is Deleted At Yotpo"/>
+        <column xsi:type="datetime" name="synced_to_yotpo" nullable="true" comment="Synced to Yotpo"/>
+        <column xsi:type="varchar" name="response_code" nullable="true" length="255" comment="Response Code"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="entity_id"/>
+        </constraint>
+        <constraint xsi:type="unique" referenceId="YOTPO_PRODUCT_SYNC_UNIQUE_KEY_PRODUCT_ID_STORE_ID">
+            <column name="product_id"/>
+            <column name="store_id"/>
+        </constraint>
+        <index referenceId="YOTPO_PRODUCT_SYNC_ENTITY_ID" indexType="btree">
+            <column name="entity_id"/>
+        </index>
+        <index referenceId="YOTPO_PRODUCT_SYNC_YOTPO_ID" indexType="btree">
+            <column name="yotpo_id"/>
+        </index>
+        <index referenceId="YOTPO_PRODUCT_SYNC_VISIBLE_VARIANT_YOTPO_ID" indexType="btree">
+            <column name="visible_variant_yotpo_id"/>
+        </index>
+    </table>
+    <table name="yotpo_orders_sync" resource="default" engine="innodb" comment="Orders sync with Yotpo">
+        <column xsi:type="int" name="entity_id" unsigned="true" nullable="false" identity="true"
+                comment="Entity ID"/>
+        <column xsi:type="int" name="order_id" unsigned="true" nullable="false" identity="false"
+                comment="Order ID"/>
+        <column xsi:type="double" name="yotpo_id" unsigned="true" nullable="true" scale="0" default="0"
+                comment="Yotpo ID"/>
+        <column xsi:type="datetime" name="synced_to_yotpo" nullable="true" comment="Synced to Yotpo"/>
+        <column xsi:type="varchar" name="response_code" nullable="true" length="5" comment="Response Code"/>
+        <column xsi:type="boolean" name="is_fulfillment_based_on_shipment" nullable="true" comment="Fulfillment Sync Method"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="entity_id"/>
+        </constraint>
+        <constraint xsi:type="unique" referenceId="YOTPO_ORDERS_SYNC_UNIQUE_KEY_ORDER_ID_STORE_ID">
+            <column name="order_id"/>
+        </constraint>
+        <index referenceId="YOTPO_ORDERS_SYNC_ENTITY_ID" indexType="btree">
+            <column name="entity_id"/>
+        </index>
+        <index referenceId="YOTPO_ORDERS_SYNC_IS_FULFILLMENT_BASED_ON_SHIPMENT" indexType="btree">
+            <column name="is_fulfillment_based_on_shipment"/>
+        </index>
+    </table>
+    <table name="sales_order" resource="sales" engine="innodb" comment="Sales Flat Order">
+        <column xsi:type="int" name="synced_to_yotpo_order" nullable="true" comment="Synced to Yotpo" default="0"/>
+        <column xsi:type="int" name="yotpo_accepts_sms_marketing" nullable="true" comment="Accepts SMS Marketing" default="0"/>
+    </table>
+    <table name="yotpo_category_sync" resource="default" engine="innodb" comment="Category sync with Yotpo">
+        <column xsi:type="int" name="entity_id" unsigned="true" nullable="false" identity="true"
+                comment="Entity ID"/>
+        <column xsi:type="int" name="category_id" unsigned="true" nullable="false" identity="false"
+                comment="Category ID"/>
+        <column xsi:type="datetime" name="synced_to_yotpo" nullable="true"
+                comment="Synced to Yotpo"/>
+        <column xsi:type="tinyint" name="is_deleted" nullable="true" comment="Is Deleted"/>
+        <column xsi:type="tinyint" name="is_deleted_at_yotpo" nullable="true" comment="Is Deleted at Yotpo"/>
+        <column xsi:type="varchar" name="response_code" nullable="true" length="5" comment="Response Code"/>
+        <column xsi:type="double" name="yotpo_id" nullable="true" comment="Response Code"/>
+        <column xsi:type="int" name="store_id" unsigned="true" nullable="false" identity="false" default="0"
+                comment="Store ID"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="entity_id"/>
+        </constraint>
+        <constraint xsi:type="unique" referenceId="YOTPO_CATEGORY_SYNC_UNIQUE_KEY_CATEGORY_ID_STORE_ID">
+            <column name="category_id"/>
+            <column name="store_id"/>
+        </constraint>
+        <index referenceId="YOTPO_CATEGORY_SYNC_ENTITY_ID" indexType="btree">
+            <column name="entity_id"/>
+        </index>
+    </table>
+    <table name="yotpo_collections_products_sync" resource="default" engine="innodb" comment="Collections products sync to Yotpo">
+        <column xsi:type="int" name="entity_id" unsigned="true" nullable="false" identity="true" comment="Entity ID"/>
+        <column xsi:type="int" name="magento_store_id" unsigned="true" nullable="false" default="0" comment="Magento Store ID"/>
+        <column xsi:type="int" name="magento_category_id" unsigned="true" nullable="false" comment="Magento Category ID"/>
+        <column xsi:type="int" name="magento_product_id" unsigned="true" nullable="false" comment="Magento Product ID"/>
+        <column xsi:type="boolean" name="is_deleted_in_magento" nullable="false" comment="Is Deleted in Magento"/>
+        <column xsi:type="boolean" name="is_synced_to_yotpo" nullable="false" comment="Is Synced to Yotpo"/>
+        <column xsi:type="datetime" name="last_updated_at" nullable="false" comment="Last Updated at Time"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="entity_id"/>
+        </constraint>
+        <constraint xsi:type="unique" referenceId="YOTPO_COLLECTIONS_PRODUCTS_SYNC_UNIQUE_KEY_MAGENTO_STORE_ID_MAGENTO_CATEGORY_ID_MAGENTO_PRODUCT_ID">
+            <column name="magento_store_id"/>
+            <column name="magento_category_id"/>
+            <column name="magento_product_id"/>
+        </constraint>
+        <index referenceId="MAGENTO_STORE_ID_ON_IS_SYNCED_TO_YOTPO" indexType="btree">
+            <column name="magento_store_id"/>
+            <column name="is_synced_to_yotpo"/>
+        </index>
+        <index referenceId="MAGENTO_STORE_ID_ON_MAGENTO_CATEGORY_ID" indexType="btree">
+            <column name="magento_store_id"/>
+            <column name="magento_category_id"/>
+        </index>
+        <index referenceId="MAGENTO_STORE_ID_ON_MAGENTO_PRODUCT_ID" indexType="btree">
+            <column name="magento_store_id"/>
+            <column name="magento_product_id"/>
+        </index>
+    </table>
+</schema>

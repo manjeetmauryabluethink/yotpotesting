@@ -1,0 +1,24 @@
+<?php
+/**
+ * @var Yotpo\SmsBump\Block\BrowseAbandonment $block
+ */
+?>
+
+<?php if (!($block->isAppKeyAndSecretSet())) {
+    return;
+}
+?>
+<script type="text/x-magento-init">
+    {
+        "*": {
+           "YotpoSMS": { "store_id": "<?= $block->getStoreId() ?>" }
+        }
+    }
+</script>
+
+<script>
+    window.wtba = window.wtba || [];
+    <?php if ($block->isPageTypeEligibleForBrowseAbandonmentEvent()): ?>
+    window.wtba.push(<?= $block->getBrowseAbandonmentEventInfo() ?>);
+    <?php endif; ?>
+</script>

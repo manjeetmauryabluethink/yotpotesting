@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceContainer name="content">
+            <block class="Yotpo\Reviews\Block\Yotpo" name="yotpo_widget_script" template="Yotpo_Reviews::widget_script.phtml" ifconfig="yotpo_core/settings/active"/>
+        </referenceContainer>
+        <referenceBlock name="content.aside">
+            <block class="Yotpo\Reviews\Block\Yotpo" name="yotpo_widget_div" template="Yotpo_Reviews::widget_div.phtml" ifconfig="yotpo_core/settings/active"/>
+        </referenceBlock>
+        <referenceBlock name="content.aside">
+            <block class="Yotpo\Reviews\Block\Yotpo" name="yotpo_qna" template="Yotpo_Reviews::questions_and_answers.phtml" ifconfig="yotpo_core/settings/active"/>
+        </referenceBlock>
+        <referenceBlock name="content.aside">
+            <block class="Yotpo\Reviews\Block\Yotpo" name="yotpo_reviews_carousel" template="Yotpo_Reviews::reviews_carousel.phtml" ifconfig="yotpo_core/settings/active"/>
+        </referenceBlock>
+        <referenceBlock name="content.aside">
+            <block class="Yotpo\Reviews\Block\Yotpo" name="yotpo_promoted_products" template="Yotpo_Reviews::promoted_products.phtml" ifconfig="yotpo_core/settings/active"/>
+        </referenceBlock>
+        <referenceBlock name="content.aside">
+            <block class="Yotpo\Reviews\Block\Yotpo" name="yotpo_reviews_tab" template="Yotpo_Reviews::reviews_tab.phtml" ifconfig="yotpo_core/settings/active"/>
+        </referenceBlock>
+        <referenceContainer name="product.info.main">
+            <block class="Yotpo\Reviews\Block\Yotpo" name="yotpo_bottomline" template="Yotpo_Reviews::bottomline.phtml" before="product.info.addto" ifconfig="yotpo_core/settings/active"/>
+        </referenceContainer>
+    </body>
+</page>

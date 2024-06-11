@@ -1,0 +1,60 @@
+<?php
+/* @var $block SyncFormsButton */
+
+use Magento\Framework\Escaper;
+use Yotpo\SmsBump\Block\Adminhtml\System\Config\SyncFormsButton;
+
+/* @var Escaper $escaper*/
+$escaper = $escaper ?? $block;
+?>
+
+<script>
+    require([
+        'jquery',
+        'prototype',
+        'mage/translate'
+    ], function($){
+        $successMsgDiv = $('#sync_forms_message_success');
+        $errorMsgDiv = $('#sync_forms_message_error');
+        var currentStore = <?= $escaper->escapeHtml($block->getStoreScope()) ?>;
+        var currentWebsite = <?= $escaper->escapeHtml($block->getWebsiteScope()) ?>;
+        $errorMsgDiv.hide();
+        $successMsgDiv.hide();
+        $('#yotpo_sync_forms_btn').click(function () {
+            $('.message.message-success').hide();
+            $('.message.message-error').hide();
+            new Ajax.Request('<?= $escaper->escapeHtml($block->getAjaxUrl()) ?>', {
+                asynchronous:   true,
+                showLoader: true,
+                parameters:{
+                    store: currentStore,
+                    website: currentWebsite
+                },
+                onSuccess: function(response) {
+                    var respStatus = JSON.parse(response.responseText);
+                    var status = respStatus.status;
+                    var errorText = [];
+                    if (status.error.length) {
+                        var errorText = status.error.join('<br/>');
+                        $errorMsgDiv.html(errorText);
+                        $errorMsgDiv.show();
+                    }
+                    if (status.success.length) {
+                        var successText = status.success.join('<br/>');
+                        $successMsgDiv.html(successText);
+                        $successMsgDiv.show();
+                    }
+                },
+                onError: function() {
+                    $errorMsgDiv.show();
+                    $errorMsgDiv.text($.mage.__('Something went wrong. Please try again'));
+                },
+            });
+        });
+
+    });
+</script>
+
+<?= $block->getButtonHtml() ?>
+<div id="sync_forms_message_success" class="message message-success" style="display: none;"></div>
+<div id="sync_forms_message_error" class="message message-error" style="display: none;"></div>

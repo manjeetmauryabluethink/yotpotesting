@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+    <table name="yotpo_rich_snippets" resource="default" engine="innodb" comment="Yotpo Rich Snippets">
+        <column xsi:type="int" name="rich_snippet_id" nullable="false" identity="true" comment="Id"/>
+        <column xsi:type="int" name="product_id" nullable="false" comment="Product Id"/>
+        <column xsi:type="int" name="store_id" nullable="false" comment="Store Id"/>
+        <column xsi:type="decimal" name="average_score" nullable="false" precision="10" scale="2"
+                comment="Average Score"/>
+        <column xsi:type="float" name="reviews_count" nullable="false" comment="Reviews Count"/>
+        <column xsi:type="timestamp" name="expiration_time" nullable="false" comment="Expiry Time"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="rich_snippet_id"/>
+        </constraint>
+    </table>
+</schema>

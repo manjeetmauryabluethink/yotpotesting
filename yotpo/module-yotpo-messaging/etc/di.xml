@@ -1,0 +1,115 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Yotpo\Core\Model\Api\Logger">
+        <arguments>
+            <argument name="handlers"  xsi:type="array">
+                <item name="checkout" xsi:type="object">Yotpo\SmsBump\Model\Sync\Checkout\Logger\Handler</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Yotpo\SmsBump\Model\Sync\Checkout\Logger">
+        <arguments>
+            <argument name="name" xsi:type="string">YotpoSmsBumpCheckoutLogger</argument>
+            <argument name="handlers"  xsi:type="array">
+                <item name="system" xsi:type="object">Yotpo\SmsBump\Model\Sync\Checkout\Logger\Handler</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Yotpo\SmsBump\Model\Sync\Checkout\Logger\Handler">
+        <arguments>
+            <argument name="filesystem" xsi:type="object">Magento\Framework\Filesystem\Driver\File</argument>
+        </arguments>
+    </type>
+    <type name="Yotpo\SmsBump\Model\Sync\Customers\Logger">
+        <arguments>
+            <argument name="name" xsi:type="string">YotpoSmsBumpCustomersLogger</argument>
+            <argument name="handlers"  xsi:type="array">
+                <item name="system" xsi:type="object">Yotpo\SmsBump\Model\Sync\Customers\Logger\Handler</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Yotpo\Core\Model\Api\Logger">
+        <arguments>
+            <argument name="handlers"  xsi:type="array">
+                <item name="customers" xsi:type="object">Yotpo\SmsBump\Model\Sync\Customers\Logger\Handler</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Yotpo\SmsBump\Model\Sync\Customers\Logger\Handler">
+        <arguments>
+            <argument name="filesystem" xsi:type="object">Magento\Framework\Filesystem\Driver\File</argument>
+        </arguments>
+    </type>
+    <type name="Yotpo\Core\Model\Api\Logger">
+        <arguments>
+            <argument name="handlers"  xsi:type="array">
+                <item name="subscription" xsi:type="object">Yotpo\SmsBump\Model\Sync\Subscription\Logger\Handler</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Yotpo\SmsBump\Model\Sync\Subscription\Logger">
+        <arguments>
+            <argument name="name" xsi:type="string">YotpoSmsBumpSubscriptionLogger</argument>
+            <argument name="handlers"  xsi:type="array">
+                <item name="system" xsi:type="object">Yotpo\SmsBump\Model\Sync\Subscription\Logger\Handler</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Yotpo\SmsBump\Model\Sync\Subscription\Logger\Handler">
+        <arguments>
+            <argument name="filesystem" xsi:type="object">Magento\Framework\Filesystem\Driver\File</argument>
+        </arguments>
+    </type>
+    <type name="Magento\Quote\Model\Quote">
+        <plugin name="yotpo_smsbump_quote_model_quote"
+                type="Yotpo\SmsBump\Plugin\Quote\Model\Quote"/>
+    </type>
+    <type name="Magento\Checkout\Controller\Account\DelegateCreate">
+        <plugin name="yotpo_smsbump_account_delegate_create"
+                type="Yotpo\SmsBump\Plugin\Checkout\Account\DelegateCreatePlugin"/>
+    </type>
+    <virtualType name="Yotpo\SmsBump\Model\Session\Storage" type="Magento\Framework\Session\Storage">
+        <arguments>
+            <argument name="namespace" xsi:type="string">yotpo_messaging</argument>
+        </arguments>
+    </virtualType>
+    <type name="Yotpo\SmsBump\Model\Session">
+        <arguments>
+            <argument name="storage" xsi:type="object">Yotpo\SmsBump\Model\Session\Storage</argument>
+        </arguments>
+    </type>
+    <preference for="Magento\Customer\Model\Metadata\Form\Checkbox"
+                type="Yotpo\SmsBump\Model\Metadata\Form\Checkbox" />
+    <preference for="Magento\Eav\Model\Attribute\Data\Checkbox"
+                type="Yotpo\SmsBump\Model\Attribute\Data\Checkbox" />
+    <preference for="Yotpo\SmsBump\Api\YotpoCustomersSyncRepositoryInterface"
+                type="Yotpo\SmsBump\Model\YotpoCustomersSyncRepository" />
+    <preference for="Yotpo\Core\Model\Sync\Customers\Processor"
+                type="Yotpo\SmsBump\Model\Sync\Customers\Processor" />
+    <type name="Yotpo\Core\Console\Command\RetryYotpoSync">
+        <arguments>
+            <argument name="customersProcessor" xsi:type="object">Yotpo\SmsBump\Model\Sync\Customers\Processor</argument>
+        </arguments>
+    </type>
+    <type name="Yotpo\Core\Model\System\Message\CustomSystemMessage">
+        <arguments>
+            <argument name="customCustomerAttributeSmsMarketing" xsi:type="object">Yotpo\SmsBump\Setup\Patch\Data\CustomCustomerAttributeSmsMarketing</argument>
+            <argument name="customCustomerAttributeSyncedToYotpo" xsi:type="object">Yotpo\SmsBump\Setup\Patch\Data\CustomCustomerAttributeSyncedToYotpo</argument>
+        </arguments>
+    </type>
+    <type name="Yotpo\Core\Model\Sync\Reset">
+        <arguments>
+            <argument name="customersReset" xsi:type="object">Yotpo\SmsBump\Model\Sync\Reset\Customers</argument>
+        </arguments>
+    </type>
+    <type name="Yotpo\SmsBump\Observer\SalesQuoteProductAddAfter">
+        <arguments>
+            <argument name="session" xsi:type="object">Yotpo\SmsBump\Model\Session</argument>
+        </arguments>
+    </type>
+    <type name="Yotpo\SmsBump\Block\KlaviyoSubscriptionIntegration">
+        <arguments>
+            <argument name="config" xsi:type="object">Yotpo\SmsBump\Model\Config</argument>
+        </arguments>
+    </type>
+</config>

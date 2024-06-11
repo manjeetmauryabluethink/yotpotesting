@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <yotpo_loyalty>
+            <general_settings>
+                <active>0</active>
+                <debug_logging_active>0</debug_logging_active>
+            </general_settings>
+            <sync_settings>
+                <swell_sync_limit>10</swell_sync_limit>
+                <swell_sync_max_tryouts>5</swell_sync_max_tryouts>
+                <keep_yotpo_sync_queue>1_month</keep_yotpo_sync_queue>
+            </sync_settings>
+            <advanced>
+                <use_yotpo_js_sdk>0</use_yotpo_js_sdk>
+                <load_yotpo_snippet>all</load_yotpo_snippet>
+                <cart_page_full_action_name>checkout_cart_index</cart_page_full_action_name>
+                <checkout_page_full_action_name>checkout_index_index</checkout_page_full_action_name>
+                <load_yotpo_snippet_path_patterns>#/checkout/?(index/?|\?|$)#</load_yotpo_snippet_path_patterns>
+            </advanced>
+        </yotpo_loyalty>
+        <csp>
+            <mode>
+                <storefront>
+                    <report_only>1</report_only>
+                </storefront>
+                <admin>
+                    <report_only>1</report_only>
+                </admin>
+            </mode>
+        </csp>
+    </default>
+</config>
